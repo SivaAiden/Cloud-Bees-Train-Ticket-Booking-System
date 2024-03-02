@@ -24,20 +24,15 @@ public class TrainTicketController {
 	@Autowired
 	private TrainTicketServices service;
 	
+	
 	@PostMapping("/purchase")
-	public String createticket(TrainTicketDetails details) {
-	/*(@RequestParam String from, @RequestParam String to,
-	        @RequestParam String firstName, @RequestParam String lastName,
-	        @RequestParam String email, @RequestParam double price,
-	        @RequestParam int seatNo, @RequestParam String seatSection) {*/
-	//	UserDetails user = new UserDetails(firstName, lastName, email);
-		//		SeatDetails seat = new SeatDetails(seatNo, seatSection);
-	//			service.purchaseticket( from,  to,user,seat, price);
-		service.purchaseticket( details.getFrom(),  details.getTo(),details.getUserdetails(),details.getSeatDetails(), details.getPrice());
+	public String createticket(@RequestParam String From,@RequestParam String To,
+			@RequestParam UserDetails user,@RequestParam double price,@RequestParam SeatDetails seat) {
+		//UserDetails user = new UserDetails(First_name, Last_name, Email);
+		//SeatDetails seat = new SeatDetails(seatnumber, seatsection);
+		service.purchaseticket( From,  To,user,seat, price);
 		return "Ticket Booked Successully";
 	}
-	
-	
 	
 	@GetMapping("/user/reciept/{Email}")
 	public TrainTicketDetails RecieptofUser(@PathVariable String Email) {
