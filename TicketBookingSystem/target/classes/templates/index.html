@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Ticket Booking System</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            margin-bottom: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Train Ticket Booking System</h1>
+
+    <!-- Book Ticket Section -->
+    <h2>Book Ticket</h2>
+    <form id="bookTicketForm">
+        <label for="from">From:</label>
+        <input type="text" id="from" name="from" required><br>
+
+        <label for="to">To:</label>
+        <input type="text" id="to" name="to" required><br>
+        
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required><br>
+        
+        <label for="seatNo">Seat Number:</label>
+        <input type="number" id="seatNo" name="seatNo" required><br>
+        
+        <label for="seatSection">Seat Section:</label>
+        <select id="seatSection" name="seatSection">
+            <option value="A">Section A</option>
+            <option value="B">Section B</option>
+        </select><br>
+        
+        <button type="submit" class="button" onclick="bookTicket()">Book Ticket</button>
+    </form>
+
+    <!-- View Receipt Section -->
+    <h2>View Receipt</h2>
+    <form id="viewReceiptForm">
+        <label for="receiptEmail">Email:</label>
+        <input type="email" id="receiptEmail" name="email" required><br>
+        <button type="button" class="button" onclick="viewReceipt()">View Receipt</button>
+        <div id="receiptResult"></div>
+    </form>
+
+    <!-- Remove User Section -->
+    <h2>Remove User</h2>
+    <form id="removeUserForm">
+        <label for="removeEmail">Email:</label>
+        <input type="email" id="removeEmail" name="email" required><br>
+        <button type="button" class="button" onclick="removeUser()">Remove User</button>
+        <div id="removeResult"></div>
+    </form>
+
+    <!-- Modify Seat Section -->
+    <h2>Modify Seat</h2>
+    <form id="modifySeatForm">
+        <label for="modifyEmail">Email:</label>
+        <input type="email" id="modifyEmail" name="email" required><br>
+        <label for="newSeatNo">New Seat Number:</label>
+        <input type="number" id="newSeatNo" name="newSeatNo" required><br>
+        <button type="button" class="button" onclick="modifySeat()">Modify Seat</button>
+        <div id="modifyResult"></div>
+    </form>
+
+    <!-- View User Section -->
+    <h2>View User</h2>
+    <form id="viewUserForm">
+        <label for="userSection">Section:</label>
+        <select id="userSection" name="section">
+            <option value="A">Section A</option>
+            <option value="B">Section B</option>
+        </select><br>
+        <button type="button" class="button" onclick="viewUsers()">View Users</button>
+        <div id="userResult"></div>
+    </form>
+
+    <!-- JavaScript code -->
+    <script>
+        // Function to handle book ticket form submission
+        function bookTicket() {
+			var userdetails = {
+				First_name:document.getElementById("firstName").value,
+				Last_name:document.getElementById("lastName").value,
+				Email:document.getElementById("email").value
+			};
+			var seatdetails = {
+				seatnumber:document.getElementById("seatNo").value,
+				seatsection:document.getElementById("seatSection").value
+			};
+			 var Traindetails = {
+                From: document.getElementById("from").value,
+                To: document.getElementById("to").value,
+                UserDetails:userdetails,
+                price: document.getElementById("price").value,
+                SeatDetails:seatdetails
+            };
+            
+ 			fetch('/api/purchase', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(Traindetails),
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Success:', response);
+                    alert('Product updated successfully');
+                } else {
+                    console.error('Error:', response);
+                    alert('Failed to update product');
+                }
+            });
+        }
+
+        // Function to handle view receipt form submission
+        function viewReceipt() {
+            const Email = document.getElementById('receiptEmail').value;
+            fetch(`/api/user/${Email}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('receiptResult').textContent = JSON.stringify(data);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Function to handle remove user form submission
+        function removeUser() {
+            const Email = document.getElementById('removeEmail').value;
+            fetch(`/api/remove/${Email}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('removeResult').textContent = data;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Function to handle modify seat form submission
+        function modifySeat() {
+            const Email = document.getElementById('modifyEmail').value;
+            const seatnumber = document.getElementById('newSeatNo').value;
+            fetch(`/api/modify/${Email}?seatnumber=${seatnumber}`, {
+                method: 'PUT'
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('modifyResult').textContent = data;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Function to handle view user form submission
+        function viewUsers() {
+            const seatsection = document.getElementById('userSection').value;
+            fetch(`/api/user/${seatsection}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('userResult').textContent = JSON.stringify(data);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
