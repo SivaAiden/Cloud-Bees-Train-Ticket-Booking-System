@@ -1,81 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Train Ticket Booking System</title>
-    <style>
-        /* CSS styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1, h2 {
-            margin-bottom: 10px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, select {
-            margin-bottom: 10px;
-        }
-        .button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 <body>
     <h1>Train Ticket Booking System</h1>
 
-    <!-- Book Ticket Section -->
     <h2>Book Ticket</h2>
     <form id="bookTicketForm">
-        <label for="from">From:</label>
-        <input type="text" id="from" name="from" required><br>
+        <label for="From">From:</label>
+        <input type="text" id="From" name="From" required><br>
 
-        <label for="to">To:</label>
-        <input type="text" id="to" name="to" required><br>
+        <label for="To">To:</label>
+        <input type="text" id="To" name="To" required><br>
         
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required><br>
+        <label for="First_name">First Name:</label>
+        <input type="text" id="First_name" name="First_name" required><br>
         
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" required><br>
+        <label for="Last_name">Last Name:</label>
+        <input type="text" id="Last_name" name="Last_name" required><br>
         
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
+        <label for="Email">Email:</label>
+        <input type="email" id="Email" name="Email" required><br>
         
         <label for="price">Price:</label>
         <input type="number" id="price" name="price" required><br>
         
-        <label for="seatNo">Seat Number:</label>
-        <input type="number" id="seatNo" name="seatNo" required><br>
+        <label for="seatnumber">Seat Number:</label>
+        <input type="number" id="seatnumber" name="seatnumber" required><br>
         
-        <label for="seatSection">Seat Section:</label>
-        <select id="seatSection" name="seatSection">
+        <label for="seatsection">Seat Section:</label>
+        <select id="seatsection" name="seatsection">
             <option value="A">Section A</option>
             <option value="B">Section B</option>
         </select><br>
         
-        <button type="submit" class="button" onclick="bookTicket()">Book Ticket</button>
+       <button type="submit" class="button" onclick="bookTicket()">Book Ticket</button>
     </form>
 
     <!-- View Receipt Section -->
     <h2>View Receipt</h2>
     <form id="viewReceiptForm">
-        <label for="receiptEmail">Email:</label>
-        <input type="email" id="receiptEmail" name="email" required><br>
+        <label for="Email">Email:</label>
+        <input type="email" id="Email1" name="Email" required><br>
         <button type="button" class="button" onclick="viewReceipt()">View Receipt</button>
         <div id="receiptResult"></div>
     </form>
@@ -83,8 +50,8 @@
     <!-- Remove User Section -->
     <h2>Remove User</h2>
     <form id="removeUserForm">
-        <label for="removeEmail">Email:</label>
-        <input type="email" id="removeEmail" name="email" required><br>
+        <label for="Email">Email:</label>
+        <input type="email" id="Email2" name="email" required><br>
         <button type="button" class="button" onclick="removeUser()">Remove User</button>
         <div id="removeResult"></div>
     </form>
@@ -92,10 +59,10 @@
     <!-- Modify Seat Section -->
     <h2>Modify Seat</h2>
     <form id="modifySeatForm">
-        <label for="modifyEmail">Email:</label>
-        <input type="email" id="modifyEmail" name="email" required><br>
-        <label for="newSeatNo">New Seat Number:</label>
-        <input type="number" id="newSeatNo" name="newSeatNo" required><br>
+        <label for="Email">Email:</label>
+        <input type="email" id="Email3" name="email" required><br>
+        <label for="seatnumber">New Seat Number:</label>
+        <input type="number" id="seatnumber1" name="newSeatNo" required><br>
         <button type="button" class="button" onclick="modifySeat()">Modify Seat</button>
         <div id="modifyResult"></div>
     </form>
@@ -103,8 +70,8 @@
     <!-- View User Section -->
     <h2>View User</h2>
     <form id="viewUserForm">
-        <label for="userSection">Section:</label>
-        <select id="userSection" name="section">
+        <label for="seatsection">Section:</label>
+        <select id="seatsection1" name="section">
             <option value="A">Section A</option>
             <option value="B">Section B</option>
         </select><br>
@@ -114,47 +81,59 @@
 
     <!-- JavaScript code -->
     <script>
-        // Function to handle book ticket form submission
-        function bookTicket() {
-			var userdetails = {
-				First_name:document.getElementById("firstName").value,
-				Last_name:document.getElementById("lastName").value,
-				Email:document.getElementById("email").value
+		 function bookTicket() {
+			     event.preventDefault(); // Prevent default form submission behavior
+       var UserDetails = {
+				First_name:document.getElementById("First_name").value,
+				Last_name:document.getElementById("Last_name").value,
+				Email:document.getElementById("Email").value
 			};
-			var seatdetails = {
-				seatnumber:document.getElementById("seatNo").value,
-				seatsection:document.getElementById("seatSection").value
+			var SeatDetails = {
+				seatnumber:document.getElementById("seatnumber").value,
+				seatsection:document.getElementById("seatsection").value
 			};
 			 var Traindetails = {
-                From: document.getElementById("from").value,
-                To: document.getElementById("to").value,
-                UserDetails:userdetails,
+                From: document.getElementById("From").value,
+                To: document.getElementById("To").value,
+                UserDetails:UserDetails,
                 price: document.getElementById("price").value,
-                SeatDetails:seatdetails
+                SeatDetails:SeatDetails
             };
-            
- 			fetch('/api/purchase', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(Traindetails),
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Success:', response);
-                    alert('Product updated successfully');
-                } else {
-                    console.error('Error:', response);
-                    alert('Failed to update product');
-                }
-            });
-        }
+        
+        console.log("Data-->"+JSON.stringify(Traindetails));
 
+        fetch('/purchase', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(Traindetails),
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Success:', response);
+                return response.text();
+            } else {
+                console.log('Error:', response);
+                alert('Failed to update product');
+            }
+            return response.json(); // Return response JSON for further processing
+        })
+        .then(data => {
+			console.log(data);
+			alert(data);
+			
+			
+		})
+        .catch((error) => console.log(error));
+     
+    }
+    
+       
         // Function to handle view receipt form submission
         function viewReceipt() {
-            const Email = document.getElementById('receiptEmail').value;
-            fetch(`/api/user/${Email}`)
+            const Email = document.getElementById('Email1').value;
+            fetch('/user/reciept/'+Email)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('receiptResult').textContent = JSON.stringify(data);
@@ -164,8 +143,8 @@
 
         // Function to handle remove user form submission
         function removeUser() {
-            const Email = document.getElementById('removeEmail').value;
-            fetch(`/api/remove/${Email}`, {
+            const Email = document.getElementById('Email2').value;
+            fetch('/remove/'+Email, {
                 method: 'DELETE'
             })
             .then(response => response.text())
@@ -177,9 +156,10 @@
 
         // Function to handle modify seat form submission
         function modifySeat() {
-            const Email = document.getElementById('modifyEmail').value;
-            const seatnumber = document.getElementById('newSeatNo').value;
-            fetch(`/api/modify/${Email}?seatnumber=${seatnumber}`, {
+            const Email = document.getElementById('Email3').value;
+            const seatnumber = document.getElementById('seatnumber1').value;
+         
+				 fetch(`/modify/${Email}?seatnumber=${seatnumber}`, {
                 method: 'PUT'
             })
             .then(response => response.text())
@@ -191,8 +171,8 @@
 
         // Function to handle view user form submission
         function viewUsers() {
-            const seatsection = document.getElementById('userSection').value;
-            fetch(`/api/user/${seatsection}`)
+            const seatsection = document.getElementById('seatsection1').value;
+            fetch('/user/section/'+seatsection)
             .then(response => response.json())
             .then(data => {
                 document.getElementById('userResult').textContent = JSON.stringify(data);
