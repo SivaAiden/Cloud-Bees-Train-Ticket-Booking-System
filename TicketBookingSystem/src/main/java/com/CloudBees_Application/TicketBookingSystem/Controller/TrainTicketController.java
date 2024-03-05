@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,19 +19,16 @@ import com.CloudBees_Application.TicketBookingSystem.Entity.TrainTicketDetails;
 import com.CloudBees_Application.TicketBookingSystem.Services.TrainTicketServices;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api/purchase")
 public class TrainTicketController {
 	
 	@Autowired
 	private TrainTicketServices service;
 	
-	
 	@PostMapping("/purchase")
-	public String createticket(@RequestParam String From,@RequestParam String To,
-			@RequestParam UserDetails user,@RequestParam double price,@RequestParam SeatDetails seat) {
-		//UserDetails user = new UserDetails(First_name, Last_name, Email);
-		//SeatDetails seat = new SeatDetails(seatnumber, seatsection);
-		service.purchaseticket( From,  To,user,seat, price);
+	public String createticket( @RequestBody TrainTicketDetails Traindetails ) {
+			
+	service.purchaseticket( Traindetails.getFrom(), Traindetails.getTo(), Traindetails.getUserdetails(),Traindetails.getSeatDetails(), Traindetails.getPrice());
 		return "Ticket Booked Successully";
 	}
 	
